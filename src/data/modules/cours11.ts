@@ -1,0 +1,96 @@
+import { ModuleData } from '../types';
+
+export const cours11: ModuleData = {
+  id: 'cours11',
+  number: '11',
+  title: 'Situer des lieux',
+  objectif: 'Utiliser les prépositions de lieu pour situer quelque chose dans un quartier.',
+  summary:
+    'devant, derrière, près de, loin de, à côté de, en face de, entre, au coin de… + articles contractés (du / des).',
+  imagePack: 'lieux',
+  sections: [
+    {
+      title: 'Prépositions de lieu',
+      bullets: [
+        'devant, derrière, près de, loin de',
+        'à côté de, à gauche / à droite de',
+        'entre, dans, au coin de la rue, en face de, à deux pas de',
+      ],
+      examples: [
+        'Mon appartement est en face du cinéma.',
+        'À deux pas de chez moi, il y a un arrêt de bus.',
+        'Le parking est en face de l’INLL Mersch.',
+      ],
+    },
+    {
+      title: 'Attention à de / du / des',
+      bullets: [
+        'près de + article : près du supermarché, près des écoles',
+        'en face de + le → en face du',
+      ],
+    },
+  ],
+  exercises: [
+    {
+      id: 'c11-1',
+      type: 'choix',
+      prompt: '« En face de » signifie…',
+      options: ['de l’autre côté', 'loin derrière', 'au-dessus', 'à l’intérieur'],
+      answer: 'de l’autre côté',
+    },
+    {
+      id: 'c11-2',
+      type: 'choix',
+      prompt: 'Complétez : près ___ supermarché',
+      options: ['du', 'de la', 'des', 'de le'],
+      answer: 'du',
+    },
+    {
+      id: 'c11-3',
+      type: 'ecriture',
+      prompt: 'Complétez : L’arrêt est ___ face du cinéma.',
+      answer: 'en',
+      accepted: ['en face', "L'arrêt est en face du cinéma."],
+    },
+    {
+      id: 'c11-4',
+      type: 'ecriture',
+      prompt: 'Écrivez : À deux pas de chez moi.',
+      answer: 'À deux pas de chez moi.',
+      accepted: ['A deux pas de chez moi.', 'À deux pas de chez moi'],
+    },
+    {
+      id: 'c11-5',
+      type: 'choix',
+      prompt: 'Le contraire de « près de » est…',
+      options: ['loin de', 'à côté de', 'devant', 'entre'],
+      answer: 'loin de',
+    },
+    {
+      id: 'c11-6',
+      type: 'choix',
+      prompt: '« Au coin de la rue » = ',
+      options: [
+        'à l’angle de la rue',
+        'au milieu de la rue',
+        'sous la rue',
+        'loin de la rue',
+      ],
+      answer: 'à l’angle de la rue',
+    },
+    {
+      id: 'c11-7',
+      type: 'ecriture',
+      prompt: 'Écrivez la préposition : le parc est ___ de la pharmacie. (next to)',
+      answer: 'à côté',
+      accepted: ['a cote', 'à côté de', 'a cote de'],
+    },
+    {
+      id: 'c11-8',
+      type: 'choix',
+      prompt: '« Entre A et B » place quelque chose…',
+      options: ['au milieu de A et B', 'devant A seulement', 'loin de A et B', 'sur A'],
+      answer: 'au milieu de A et B',
+    },
+  ],
+};

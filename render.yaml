@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: francais-a2-1
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build:web
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
