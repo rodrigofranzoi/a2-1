@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -11,21 +11,47 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ChoiceExercise } from '../components/ChoiceExercise';
 import { WriteExercise } from '../components/WriteExercise';
 import { getModule } from '../data/modules';
+import { Exercise } from '../data/types';
 import { colors } from '../theme/colors';
 import { RootStackParamList } from '../navigation/types';
+import { shuffle } from '../utils/shuffle';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Exercise'>;
 
+function newSession(pool: readonly Exercise[]): Exercise[] {
+  return shuffle(pool);
+}
+
 export function ExerciseScreen({ route, navigation }: Props) {
-  const module = getModule(route.params.moduleId);
+  const moduleId = route.params.moduleId;
+  const module = getModule(moduleId);
   const { width } = useWindowDimensions();
   const maxWidth = Math.min(width, 720);
 
-  const exercises = module?.exercises ?? [];
+  const pool = module?.exercises ?? [];
+  const [exercises, setExercises] = useState<Exercise[]>(() =>
+    newSession(pool),
+  );
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [finished, setFinished] = useState(false);
+
+  const restart = useCallback(() => {
+    setExercises(newSession(pool));
+    setIndex(0);
+    setScore(0);
+    setAnswered(false);
+    setFinished(false);
+  }, [pool]);
+
+  useEffect(() => {
+    setExercises(newSession(getModule(moduleId)?.exercises ?? []));
+    setIndex(0);
+    setScore(0);
+    setAnswered(false);
+    setFinished(false);
+  }, [moduleId]);
 
   const current = exercises[index];
   const progressLabel = useMemo(
@@ -33,7 +59,7 @@ export function ExerciseScreen({ route, navigation }: Props) {
     [index, exercises.length],
   );
 
-  if (!module || !current) {
+  if (!module || exercises.length === 0 || !current) {
     return (
       <View style={styles.missing}>
         <Text style={styles.missingText}>Exercices introuvables.</Text>
@@ -62,15 +88,7 @@ export function ExerciseScreen({ route, navigation }: Props) {
                 ? 'Bon travail. Relisez la leçon puis réessayez.'
                 : 'Relisez le résumé du module, puis recommencez.'}
           </Text>
-          <Pressable
-            style={styles.primaryBtn}
-            onPress={() => {
-              setIndex(0);
-              setScore(0);
-              setAnswered(false);
-              setFinished(false);
-            }}
-          >
+          <Pressable style={styles.primaryBtn} onPress={restart}>
             <Text style={styles.primaryBtnText}>Recommencer</Text>
           </Pressable>
           <Pressable
@@ -109,7 +127,9 @@ export function ExerciseScreen({ route, navigation }: Props) {
           <View
             style={[
               styles.progressBarFill,
-              { width: `${((index + (answered ? 1 : 0)) / exercises.length) * 100}%` },
+              {
+                width: `${((index + (answered ? 1 : 0)) / exercises.length) * 100}%`,
+              },
             ]}
           />
         </View>
@@ -153,7 +173,9 @@ export function ExerciseScreen({ route, navigation }: Props) {
             }}
           >
             <Text style={styles.primaryBtnText}>
-              {index + 1 >= exercises.length ? 'Voir le score' : 'Question suivante'}
+              {index + 1 >= exercises.length
+                ? 'Voir le score'
+                : 'Question suivante'}
             </Text>
           </Pressable>
         ) : null}

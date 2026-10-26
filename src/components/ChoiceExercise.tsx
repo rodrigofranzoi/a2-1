@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ChoiceExercise as ChoiceExerciseType } from '../data/types';
 import { colors } from '../theme/colors';
+import { shuffle } from '../utils/shuffle';
 
 type Props = {
   exercise: ChoiceExerciseType;
@@ -10,6 +11,10 @@ type Props = {
 
 export function ChoiceExercise({ exercise, onResult }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
+  const options = useMemo(
+    () => shuffle(exercise.options),
+    [exercise.id, exercise.options],
+  );
   const revealed = selected !== null;
   const isCorrect = selected === exercise.answer;
 
@@ -17,7 +22,7 @@ export function ChoiceExercise({ exercise, onResult }: Props) {
     <View>
       <Text style={styles.prompt}>{exercise.prompt}</Text>
       <View style={styles.options}>
-        {exercise.options.map((option) => {
+        {options.map((option) => {
           const isSelected = selected === option;
           const showGood = revealed && option === exercise.answer;
           const showBad = revealed && isSelected && option !== exercise.answer;
