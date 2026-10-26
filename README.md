@@ -13,10 +13,23 @@ npm run web
 
 ```bash
 npm run build:web
-npm run start:prod
+npm run start:prod   # optionnel en local (Node) ; pas nécessaire sur Static Site
 ```
 
-Sur Render : branchez le dépôt GitHub, utilisez `render.yaml` (build `npm run build:web`, start `npm run start:prod`).
+### Render — Static Site (recommandé)
+
+1. New → **Static Site**, repo `a2-1`
+2. **Build command:** `npm install && npm run build:web`
+3. **Publish directory:** `dist`
+4. **Redirects/Rewrites** (Settings) — règle SPA obligatoire :
+
+| Source | Destination | Action |
+| --- | --- | --- |
+| `/*` | `/index.html` | **Rewrite** |
+
+Sans cette règle, un refresh sur une route React Navigation renvoie 404.
+
+Le fichier [`render.yaml`](render.yaml) définit déjà cette rewrite pour un déploiement Blueprint.
 
 ## Contenu
 

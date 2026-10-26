@@ -1,10 +1,14 @@
 services:
   - type: web
     name: francais-a2-1
-    runtime: node
+    runtime: static
     plan: free
     buildCommand: npm install && npm run build:web
-    startCommand: npm run start:prod
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: NODE_VERSION
         value: 22.14.0
