@@ -12,12 +12,14 @@ import { cours10 } from './cours10';
 import { cours11 } from './cours11';
 import { cours12 } from './cours12';
 import { cours13 } from './cours13';
+import { conjugaison } from './conjugaison';
 import { vetements } from './vetements';
 
 export const modules: ModuleData[] = [
   cours1,
   cours2,
   cours3,
+  conjugaison,
   cours4,
   cours5,
   cours6,
